@@ -39,7 +39,7 @@ namespace eShopas
         {
             MySQLConnection connection = null;
             string connectionString = "datasource=stud.if.ktu.lt;port=3306;username=marsud;password=peu3uj5Cohximiph";
-           
+            bool connectionOpen = true;
 
             try
             {
@@ -56,7 +56,8 @@ namespace eShopas
             if (reader.Read())
             {
 
-                
+                connection.Close();
+                connectionOpen = false;
                 this.Visible = false;
                 Form mainForm = new MainForm();
                 mainForm.Show();
@@ -74,7 +75,11 @@ namespace eShopas
             }
             finally
             {
-                connection.Close();
+                if (connectionOpen)
+                {
+                    connection.Close();
+
+                }
             }
                 
             
