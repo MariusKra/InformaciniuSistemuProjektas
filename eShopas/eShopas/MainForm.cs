@@ -17,14 +17,15 @@ namespace eShopas
     public partial class MainForm : Form
     {
         Database database = new Database();
-        
+        int last_selected;
         public MainForm()
         {
 
 
             InitializeComponent();
+            tableLayoutPanel1.Visible = false;
+
            
-            database.fillDataGrid(this.dataGridView1);
          
 
 
@@ -37,7 +38,9 @@ namespace eShopas
 
         private void užsakymaiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            hideAll();
+            tableLayoutPanel3.Visible = true;
+            //uzsakymu vaizdavimo logika
            
         }
         /*
@@ -55,6 +58,15 @@ namespace eShopas
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void hideAll()
+        {
+            tableLayoutPanel1.Visible = false;
+            tableLayoutPanel2.Visible = false;
+            tableLayoutPanel3.Visible = false;
+            tableLayoutPanel4.Visible = false;
 
         }
 
@@ -127,8 +139,69 @@ namespace eShopas
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            int index = dataGridView1.CurrentCell.RowIndex;
-            int id = (int)dataGridView1[0, index].Value;
+            //last_selected = dataGridView1.CurrentCell.RowIndex;
+            try
+            {
+                int index = dataGridView1.CurrentCell.RowIndex;
+                int id = (int)dataGridView1[0, index].Value;
+            }
+            catch (Exception ex)
+            {
+                dataGridView1.ClearSelection();
+
+            }
+        }
+
+        private void vartotojaiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            hideAll();
+            tableLayoutPanel1.Visible = true;
+            database.fillUserDataGrid(this.dataGridView1);
+            dataGridView1.Rows[0].Cells[0].Selected = false;
+
+
+        }
+
+        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void prekėsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            hideAll();
+            tableLayoutPanel2.Visible = true;
+            //visa logika prekiu pridejimo
+
+
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+            
+
+        }
+
+        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pardavimųStatistikaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tableLayoutPanel4.Visible = true;
+            //pardavim7 statistikos logika
         }
 
      

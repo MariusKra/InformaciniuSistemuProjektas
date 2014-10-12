@@ -75,7 +75,7 @@ namespace eShopas
         
          }
 
-        public void fillDataGrid(DataGridView grid)
+        public void fillUserDataGrid(DataGridView grid)
         {
             string Query = "select id, username, email, enabled, last_login, locked, expires_at from marsud.bts_users";
             try
