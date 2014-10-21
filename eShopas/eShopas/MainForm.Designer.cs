@@ -35,26 +35,28 @@
             this.prekėsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.UserPermissionsComboBox = new System.Windows.Forms.ComboBox();
+            this.labelUserPermissionsLabel = new System.Windows.Forms.Label();
+            this.emailTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.usernameTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.usernameTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.emailTextBox = new System.Windows.Forms.TextBox();
-            this.labelUserPermissionsLabel = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.UserEnabledComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -131,6 +133,72 @@
             this.tableLayoutPanel1.TabIndex = 5;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.UserEnabledComboBox);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.UserPermissionsComboBox);
+            this.panel1.Controls.Add(this.labelUserPermissionsLabel);
+            this.panel1.Controls.Add(this.emailTextBox);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.usernameTextBox);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Location = new System.Drawing.Point(760, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(283, 338);
+            this.panel1.TabIndex = 5;
+            // 
+            // UserPermissionsComboBox
+            // 
+            this.UserPermissionsComboBox.FormattingEnabled = true;
+            this.UserPermissionsComboBox.Location = new System.Drawing.Point(33, 216);
+            this.UserPermissionsComboBox.Name = "UserPermissionsComboBox";
+            this.UserPermissionsComboBox.Size = new System.Drawing.Size(141, 21);
+            this.UserPermissionsComboBox.TabIndex = 5;
+            this.UserPermissionsComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // labelUserPermissionsLabel
+            // 
+            this.labelUserPermissionsLabel.AutoSize = true;
+            this.labelUserPermissionsLabel.Location = new System.Drawing.Point(30, 200);
+            this.labelUserPermissionsLabel.Name = "labelUserPermissionsLabel";
+            this.labelUserPermissionsLabel.Size = new System.Drawing.Size(79, 13);
+            this.labelUserPermissionsLabel.TabIndex = 4;
+            this.labelUserPermissionsLabel.Text = "Vartotojo teisės";
+            // 
+            // emailTextBox
+            // 
+            this.emailTextBox.Location = new System.Drawing.Point(33, 112);
+            this.emailTextBox.Name = "emailTextBox";
+            this.emailTextBox.Size = new System.Drawing.Size(141, 20);
+            this.emailTextBox.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(30, 96);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Elektroninis paštas";
+            // 
+            // usernameTextBox
+            // 
+            this.usernameTextBox.Enabled = false;
+            this.usernameTextBox.Location = new System.Drawing.Point(33, 60);
+            this.usernameTextBox.Name = "usernameTextBox";
+            this.usernameTextBox.Size = new System.Drawing.Size(141, 20);
+            this.usernameTextBox.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Vartotojo vardas";
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
@@ -204,69 +272,22 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Cia viskas apie pardavimus eina";
             // 
-            // panel1
+            // label6
             // 
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.labelUserPermissionsLabel);
-            this.panel1.Controls.Add(this.emailTextBox);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.usernameTextBox);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(760, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(283, 338);
-            this.panel1.TabIndex = 5;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(30, 148);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Vartotojo būsena";
             // 
-            // label4
+            // UserEnabledComboBox
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Vartotojo vardas";
-            // 
-            // usernameTextBox
-            // 
-            this.usernameTextBox.Enabled = false;
-            this.usernameTextBox.Location = new System.Drawing.Point(33, 60);
-            this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(100, 20);
-            this.usernameTextBox.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(30, 96);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(95, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Elektroninis paštas";
-            // 
-            // emailTextBox
-            // 
-            this.emailTextBox.Location = new System.Drawing.Point(33, 112);
-            this.emailTextBox.Name = "emailTextBox";
-            this.emailTextBox.Size = new System.Drawing.Size(100, 20);
-            this.emailTextBox.TabIndex = 3;
-            // 
-            // labelUserPermissionsLabel
-            // 
-            this.labelUserPermissionsLabel.AutoSize = true;
-            this.labelUserPermissionsLabel.Location = new System.Drawing.Point(30, 152);
-            this.labelUserPermissionsLabel.Name = "labelUserPermissionsLabel";
-            this.labelUserPermissionsLabel.Size = new System.Drawing.Size(79, 13);
-            this.labelUserPermissionsLabel.TabIndex = 4;
-            this.labelUserPermissionsLabel.Text = "Vartotojo teisės";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(33, 168);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 21);
-            this.comboBox1.TabIndex = 5;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.UserEnabledComboBox.FormattingEnabled = true;
+            this.UserEnabledComboBox.Location = new System.Drawing.Point(33, 165);
+            this.UserEnabledComboBox.Name = "UserEnabledComboBox";
+            this.UserEnabledComboBox.Size = new System.Drawing.Size(141, 21);
+            this.UserEnabledComboBox.TabIndex = 7;
             // 
             // MainForm
             // 
@@ -288,14 +309,14 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,6 +343,8 @@
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelUserPermissionsLabel;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox UserPermissionsComboBox;
+        private System.Windows.Forms.ComboBox UserEnabledComboBox;
+        private System.Windows.Forms.Label label6;
     }
 }
