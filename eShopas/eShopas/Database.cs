@@ -115,7 +115,7 @@ namespace eShopas
 
         public void fillUserDataById(int id, TextBox username, TextBox email, ComboBox permissions, ComboBox userEnabled)
         {
-            string Query = "select username, email, enabled, last_login,  from marsud.bts_users";
+            string Query = "select username, email, enabled, last_login from marsud.bts_users where id="+id;
             string Query2 = string.Format("SELECT Id FROM bts_users__groups INNER JOIN bts_groups ON bts_users__groups.group_id = bts_groups.id WHERE user_id ={0}", id);
 
 
@@ -132,7 +132,7 @@ namespace eShopas
                 reader.Read();
                 username.Text = reader.GetString(0);
                 email.Text = reader.GetString(1);
-                permissions.DataSource = ;
+                //permissions.DataSource = ;
 
 
 

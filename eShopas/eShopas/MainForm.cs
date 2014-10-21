@@ -144,6 +144,9 @@ namespace eShopas
             {
                 int index = dataGridView1.CurrentCell.RowIndex;
                 int id = (int)dataGridView1[0, index].Value;
+                database.fillUserDataById(id, usernameTextBox, emailTextBox, UserPermissionsComboBox, UserEnabledComboBox);
+
+
             }
             catch (Exception ex)
             {
