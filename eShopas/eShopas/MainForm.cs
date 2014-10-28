@@ -17,12 +17,14 @@ namespace eShopas
     public partial class MainForm : Form
     {
         Database database = new Database();
-        int last_selected;
+        int permissionsId;
+        int isUserEnabled;
         public MainForm()
         {
 
 
             InitializeComponent();
+            database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox);
             tableLayoutPanel1.Visible = false;
 
            
@@ -219,6 +221,45 @@ namespace eShopas
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+         // permissionsId = Int32.Parse((Database.PermisionsEnum)UserPermissionsComboBox.SelectedValue))+1;
+
+            permissionsId = UserPermissionsComboBox.SelectedIndex + 1;
+
+           // string str = Enum.Parse(typeof(Database.PermisionsEnum), (UserPermissionsComboBox.SelectedValue.ToString())).ToString();
+
+
+        }
+
+        private void UserEnabledComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            isUserEnabled = ((int)UserEnabledComboBox.SelectedIndex == 0) ? 1 : 0;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+               int index = dataGridView1.CurrentCell.RowIndex;
+                int id = (int)dataGridView1[0, index].Value;
+                
+
+                database.updateUserInfo(id, emailTextBox, UserPermissionsComboBox, UserEnabledComboBox);
+                database.fillUserDataGrid(dataGridView1);
+               // dataGridView1.CurrentCell = dataGridView1.Rows[id].Cells[0];
+
+                //dataGridView1.SelectedRows.Clear();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+
+                    if((int)dataGridView1[0, row.Index].Value == id)
+                           row.Selected = true;
+                }
+
+
+
+                //dataGridView1.Rows[index].Selected = true;
+
 
         }
 

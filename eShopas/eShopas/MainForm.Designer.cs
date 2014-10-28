@@ -36,6 +36,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.UserEnabledComboBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.UserPermissionsComboBox = new System.Windows.Forms.ComboBox();
             this.labelUserPermissionsLabel = new System.Windows.Forms.Label();
             this.emailTextBox = new System.Windows.Forms.TextBox();
@@ -48,8 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.UserEnabledComboBox = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.UserEnabledComboBox);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.UserPermissionsComboBox);
@@ -147,6 +149,24 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(283, 338);
             this.panel1.TabIndex = 5;
+            // 
+            // UserEnabledComboBox
+            // 
+            this.UserEnabledComboBox.FormattingEnabled = true;
+            this.UserEnabledComboBox.Location = new System.Drawing.Point(33, 165);
+            this.UserEnabledComboBox.Name = "UserEnabledComboBox";
+            this.UserEnabledComboBox.Size = new System.Drawing.Size(141, 21);
+            this.UserEnabledComboBox.TabIndex = 7;
+            this.UserEnabledComboBox.SelectedIndexChanged += new System.EventHandler(this.UserEnabledComboBox_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(30, 148);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Vartotojo būsena";
             // 
             // UserPermissionsComboBox
             // 
@@ -272,22 +292,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Cia viskas apie pardavimus eina";
             // 
-            // label6
+            // button1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(30, 148);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Vartotojo būsena";
-            // 
-            // UserEnabledComboBox
-            // 
-            this.UserEnabledComboBox.FormattingEnabled = true;
-            this.UserEnabledComboBox.Location = new System.Drawing.Point(33, 165);
-            this.UserEnabledComboBox.Name = "UserEnabledComboBox";
-            this.UserEnabledComboBox.Size = new System.Drawing.Size(141, 21);
-            this.UserEnabledComboBox.TabIndex = 7;
+            this.button1.Location = new System.Drawing.Point(33, 254);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Išsaugoti";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -346,5 +359,6 @@
         private System.Windows.Forms.ComboBox UserPermissionsComboBox;
         private System.Windows.Forms.ComboBox UserEnabledComboBox;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button1;
     }
 }

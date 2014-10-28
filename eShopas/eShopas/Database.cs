@@ -17,6 +17,8 @@ using MySql.Data.MySqlClient;
 
 namespace eShopas
 {
+   
+
     class Database
     {
         MySQLConnection connection = null;
@@ -106,6 +108,29 @@ namespace eShopas
 
         }
 
+        public enum PermisionsEnum
+        {
+            Vartotojas = 1,
+            Administratorius = 2,
+            Pagrindinis_administratorius = 3
+        }
+        public enum userState
+        {
+            Aktyvus = 1,
+            Blokuotas = 2
+        }
+
+        public void fillDropDowns(ComboBox perm, ComboBox userEnabled)
+        {
+
+            
+            perm.DataSource = Enum.GetNames(typeof(PermisionsEnum));
+            userEnabled.DataSource = Enum.GetNames(typeof(userState));
+
+
+        }
+
+
         public enum UserGroups
         {
             Vartotojas = 1,
@@ -113,13 +138,14 @@ namespace eShopas
             Pagrindinis_Administratorius = 3
         }
 
+      
+
         public void fillUserDataById(int id, TextBox username, TextBox email, ComboBox permissions, ComboBox userEnabled)
         {
             string Query = "select username, email, enabled, last_login from marsud.bts_users where id="+id;
-            string Query2 = string.Format("SELECT Id FROM bts_users__groups INNER JOIN bts_groups ON bts_users__groups.group_id = bts_groups.id WHERE user_id ={0}", id);
+            string Query2 = string.Format("SELECT Id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id WHERE user_id ={0}", id);
 
-
-
+            int selectedId = 0;
 
             try
             {
@@ -132,7 +158,22 @@ namespace eShopas
                 reader.Read();
                 username.Text = reader.GetString(0);
                 email.Text = reader.GetString(1);
-                //permissions.DataSource = ;
+                userEnabled.SelectedIndex = reader.GetInt32(2) == 1 ? 0 : 1;
+
+                reader.Close();
+
+                MySqlCommand cmd2 = new MySqlCommand(Query2, connection);
+                MySqlDataReader reader2 = cmd2.ExecuteReader();
+                reader2.Read();
+                selectedId = reader2.GetInt32(0);
+                reader2.Close();
+
+
+               
+
+                //(JobType)Enum.Parse(typeof(PermisionsEnum), comboBox1.SelectedText);
+
+                permissions.SelectedIndex = selectedId-1;
 
 
 
@@ -148,6 +189,38 @@ namespace eShopas
                 connection.Close();
             }
 
+
+        }
+
+        public void updateUserInfo(int id, TextBox email, ComboBox permissions, ComboBox userEnabled)
+        {
+            string Query = string.Format("update marsud.bts_users__groups set marsud.bts_users__groups.group_id = {0} where user_id = {1}", permissions.SelectedIndex + 1, id);
+            string Query2 = string.Format("update marsud.bts_users set email='{0}', enabled={1} where marsud.bts_users.id = {2}", email.Text, userEnabled.SelectedIndex == 0 ? 1 : 0, id);
+            try
+            {
+
+                connection = new MySQLConnection(connectionString);
+                connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                MySqlCommand cmd2 = new MySqlCommand(Query2, connection);
+                cmd2.ExecuteNonQuery();
+                cmd2.Dispose();
+                
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
 
         }
 
