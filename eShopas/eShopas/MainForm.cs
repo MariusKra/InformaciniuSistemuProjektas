@@ -42,7 +42,12 @@ namespace eShopas
         {
             hideAll();
             tableLayoutPanel3.Visible = true;
-            //uzsakymu vaizdavimo logika
+           
+
+
+
+
+
            
         }
         /*

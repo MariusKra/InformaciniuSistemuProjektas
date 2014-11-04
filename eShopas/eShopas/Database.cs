@@ -79,7 +79,7 @@ namespace eShopas
 
         public void fillUserDataGrid(DataGridView grid)
         {
-            string Query = "select id, username, email, enabled, last_login, locked, expires_at from marsud.bts_users";
+            string Query = "select id, username as 'Vartotojo vardas', email as 'El. Pastas', enabled as 'Aktyvus', last_login as 'Paskutinis prisijungimas', locked, expires_at from marsud.bts_users";
             try
             {
 
