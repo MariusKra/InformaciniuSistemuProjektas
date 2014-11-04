@@ -43,7 +43,7 @@ namespace eShopas
             hideAll();
             tableLayoutPanel3.Visible = true;
            
-
+            // Užsakytas, Apmokėtas, Atšauktas
 
 
 
@@ -168,7 +168,7 @@ namespace eShopas
             tableLayoutPanel1.Visible = true;
             database.fillUserDataGrid(this.dataGridView1);
             dataGridView1.Rows[0].Cells[0].Selected = false;
-
+            // ištrinti user su delete o ne enabled varnelę nuimt
 
         }
 
@@ -214,6 +214,7 @@ namespace eShopas
 
         private void pardavimųStatistikaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            hideAll();
             tableLayoutPanel4.Visible = true;
             //pardavim7 statistikos logika
         }
