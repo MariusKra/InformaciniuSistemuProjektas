@@ -16,6 +16,8 @@ namespace eShopas
 {
     public partial class MainForm : Form
     {
+        public int permissions { get; set; }
+
         Database database = new Database();
         int permissionsId;
         int isUserEnabled;
@@ -27,11 +29,8 @@ namespace eShopas
             database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox);
             tableLayoutPanel1.Visible = false;
 
-           
-         
-
-
-             //   FillGridWithValues(allData);
+            database.fillOrdersInfoList(dataGridView2);
+            dataGridView2.Rows[0].Cells[0].Selected = false;
 
 
         }
@@ -45,23 +44,32 @@ namespace eShopas
            
             // Užsakytas, Apmokėtas, Atšauktas
 
+            database.fillOrdersInfoList(dataGridView2);
+            dataGridView2.Rows[0].Cells[0].Selected = false;
 
 
 
            
         }
-        /*
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var senderGrid = (DataGridView)sender;
 
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
-                e.RowIndex >= 0)
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+            //last_selected = dataGridView1.CurrentCell.RowIndex;
+            try
             {
-                Button btn = senderGrid[e.ColumnIndex, e.RowIndex] as Button;
-                //TODO - Button Clicked - Execute Code Here
+                int index = dataGridView2.CurrentCell.RowIndex;
+                int id = (int)dataGridView2[0, index].Value;
+                database.fillCartByOrder(dataGridView3, id);
+
             }
-        }*/
+            catch (Exception ex)
+            {
+                dataGridView1.ClearSelection();
+
+            }
+        }
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -74,6 +82,11 @@ namespace eShopas
             tableLayoutPanel2.Visible = false;
             tableLayoutPanel3.Visible = false;
             tableLayoutPanel4.Visible = false;
+            if (permissions != 3)
+            {
+                UserPermissionsComboBox.Visible = false;
+                labelUserPermissionsLabel.Visible = false;
+            }
 
         }
 
@@ -83,38 +96,6 @@ namespace eShopas
             Application.Exit();
         }
 
-       /* private void FillGridWithValues(List<Dictionary<string, string>> fillData)
-        {
-            for(int row = 0; row < fillData.Count(); row++){
-                tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-                if (row == 0)
-                {
-                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                }
-                Label lab = new Label();
-                
-                lab.Text = fillData[row]["id"].ToString();
-
-                Label lab2 = new Label();
-                lab2.Text = fillData[row]["username"].ToString();
-
-                Label lab3 = new Label();
-                lab3.Text = fillData[row]["email"].ToString();
-
-                Label lab4 = new Label();  
-                lab4.Text = fillData[row]["locked"].ToString();
-                
-
-                tableLayoutPanel1.Controls.Add(lab, 0, row);
-                tableLayoutPanel1.Controls.Add(lab2, 1, row);
-                tableLayoutPanel1.Controls.Add(lab3, 2, row);
-                tableLayoutPanel1.Controls.Add(lab4, 3, row);
-                
-            }
-
-            
-
-        }*/
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -272,6 +253,35 @@ namespace eShopas
 
 
         }
+
+        private void button2_Click(object sender, EventArgs e)// delete button
+        {
+            if (MessageBox.Show("Ar tikrai norite ištrinti šį vartotoją?", "Ištrinti vartotoją", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                int index = dataGridView1.CurrentCell.RowIndex;
+                int id = (int)dataGridView1[0, index].Value;
+                database.DeleteUser(id);
+                database.fillUserDataGrid(dataGridView1);
+                // dataGridView1.CurrentCell = dataGridView1.Rows[id].Cells[0];
+
+                //dataGridView1.SelectedRows.Clear();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+
+                    if ((int)dataGridView1[0, row.Index].Value == id)
+                        row.Selected = true;
+                }
+            } 
+
+        }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+          
+            
+        
+        }
+
 
      
 

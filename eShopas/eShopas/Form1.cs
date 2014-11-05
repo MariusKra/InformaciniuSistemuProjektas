@@ -80,10 +80,7 @@ namespace eShopas
             {
 
                 string Query = string.Format("SELECT marsud.bts_groups.id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id inner join marsud.bts_users on user_id = bts_users.id WHERE marsud.bts_users.username = '{0}'", usernameTextBox.Text);
-                //string Query = 
-             //string Query = "select * from marsud.bts_users where username='"+this.usernameTextBox.Text+" ";
-             //string Query = "select * from marsud.bts_users";
-             
+          
                 connection = new MySQLConnection(connectionString);
             connection.Open();   
 
@@ -98,19 +95,14 @@ namespace eShopas
                 {
                     connectionOpen = false;
                     this.Visible = false;
-                    Form mainForm = new MainForm();
+                    MainForm mainForm = new MainForm();
                     mainForm.Show();
+                    mainForm.permissions = permissions;
 
                 }
 
-                connection.Close();
-                
-
-            }
-                    
-            
-
-          
+                connection.Close();  
+            }                
             }
             catch (Exception ex)
             {
@@ -122,7 +114,6 @@ namespace eShopas
                 if (connectionOpen)
                 {
                     connection.Close();
-
                 }
             }
                 
