@@ -21,16 +21,20 @@ namespace eShopas
         Database database = new Database();
         int permissionsId;
         int isUserEnabled;
+        bool filterOn = false;
         public MainForm()
         {
 
 
             InitializeComponent();
-            database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox);
+            database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox, OrdersStateComboBox, OrdersStateFilterComboBox);
             tableLayoutPanel1.Visible = false;
 
-            database.fillOrdersInfoList(dataGridView2);
+            database.fillOrdersInfoList(dataGridView2, null);
             dataGridView2.Rows[0].Cells[0].Selected = false;
+
+            OrdersDateFromFilterDatePicker.Value = DateTime.Now.AddMonths(-1);
+            OrdersTillDateFilterDatetPicker.Value = DateTime.Now.AddMonths(1);
 
 
         }
@@ -44,7 +48,7 @@ namespace eShopas
            
             // Užsakytas, Apmokėtas, Atšauktas
 
-            database.fillOrdersInfoList(dataGridView2);
+            database.fillOrdersInfoList(dataGridView2, null);
             dataGridView2.Rows[0].Cells[0].Selected = false;
 
 
@@ -61,6 +65,8 @@ namespace eShopas
                 int index = dataGridView2.CurrentCell.RowIndex;
                 int id = (int)dataGridView2[0, index].Value;
                 database.fillCartByOrder(dataGridView3, id);
+                database.fillOrderInfo(OrdersUsernameTextBox, OrderIdTextBox, OrdersStateComboBox, id);
+
 
             }
             catch (Exception ex)
@@ -277,9 +283,106 @@ namespace eShopas
 
         private void dataGridView3_SelectionChanged(object sender, EventArgs e)
         {
-          
+            try{
+            int index = dataGridView2.CurrentCell.RowIndex;
+            int OrderId = (int)dataGridView2[0, index].Value;
+
+            int index2 = dataGridView3.CurrentCell.RowIndex;
+            int productId = (int)dataGridView3[0, index].Value;
+
+            database.flllCartItemQuantity(OrderId, productId, CartSelectedProductQuantityTextBox);
             
-        
+             }
+            catch (Exception ex)
+            {
+                dataGridView1.ClearSelection();
+
+            }
+        }
+
+      
+
+        private void OrderFilterButton_Click(object sender, EventArgs e)
+        {
+            OrdersFilter filter = new OrdersFilter()
+            {
+                Username = OrdersUsernameFilterTextBox.Text,
+                State = (OrdersStateFilterComboBox.SelectedIndex == 0 ? "": Enum.GetName(typeof(Database.OrderStates), OrdersStateFilterComboBox.SelectedIndex)),
+                startDate = OrdersDateFromFilterDatePicker.Value.ToString("yyyy-MM-dd"),
+                endDate = OrdersTillDateFilterDatetPicker.Value.ToString("yyyy-MM-dd"),
+            };
+            database.fillOrdersInfoList(dataGridView2, filter);
+
+            dataGridView3.DataSource = null;
+            if (dataGridView2.RowCount != 0)
+            {
+                dataGridView2.Rows[0].Cells[0].Selected = false;
+
+            }
+            filterOn = true;
+
+        }
+
+        private void UpdateOrdersButton_Click(object sender, EventArgs e)
+        {
+
+                 try
+            {
+                int index = dataGridView2.CurrentCell.RowIndex;
+                int id = (int)dataGridView2[0, index].Value;
+                database.updateOrderInfo(id, OrdersStateComboBox.SelectedValue.ToString());
+                if (filterOn)
+                {
+                    OrdersFilter filter = new OrdersFilter()
+                    {
+                        Username = OrdersUsernameFilterTextBox.Text,
+                        State = (OrdersStateFilterComboBox.SelectedIndex == 0 ? "" : Enum.GetName(typeof(Database.OrderStates), OrdersStateFilterComboBox.SelectedIndex)),
+                        startDate = OrdersDateFromFilterDatePicker.Value.ToString("yyyy-MM-dd"),
+                        endDate = OrdersTillDateFilterDatetPicker.Value.ToString("yyyy-MM-dd"),
+                    };
+                    database.fillOrdersInfoList(dataGridView2, filter);
+
+           
+                }
+                else
+                    database.fillOrdersInfoList(dataGridView2, null);
+                foreach (DataGridViewRow row in dataGridView2.Rows)
+                {
+
+                    if ((int)dataGridView2[0, row.Index].Value == id)
+                        row.Selected = true;
+                    else
+                        row.Selected = false;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void ProductQuantitySaveButton_Click(object sender, EventArgs e)
+        {
+
+
+
+        }
+
+        private void DeleteOrderProduct_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrdersFilterClearButton_Click(object sender, EventArgs e)
+        {
+            OrdersUsernameFilterTextBox.Text = "";
+            OrdersStateFilterComboBox.SelectedIndex = 0;
+            dataGridView2.DataSource = null;
+            database.fillOrdersInfoList(dataGridView2, null);
+            dataGridView2.Rows[0].Cells[0].Selected = false;
+            filterOn = false;
         }
 
 

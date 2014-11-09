@@ -17,6 +17,15 @@ using MySql.Data.MySqlClient;
 
 namespace eShopas
 {
+
+    public class OrdersFilter
+    {
+        public string Username { get; set; }
+        public string State { get; set; }
+        public string startDate { get; set; }
+        public string endDate { get; set; }
+    
+    }
    
 
     class Database
@@ -119,10 +128,27 @@ namespace eShopas
             Blokuotas = 2
         }
 
-        public void fillDropDowns(ComboBox perm, ComboBox userEnabled)
+        public enum OrderStates
+        {
+            Užsakytas = 1,
+            Apmokėtas = 2,
+            Ištrintas = 3
+
+        }
+        public void fillDropDowns(ComboBox perm, ComboBox userEnabled, ComboBox orderState, ComboBox orderStateFilter)
         {                        
             perm.DataSource = Enum.GetNames(typeof(PermisionsEnum));
             userEnabled.DataSource = Enum.GetNames(typeof(userState));
+            orderState.DataSource = Enum.GetNames(typeof(OrderStates));
+           
+            int i = 1;
+            orderStateFilter.Items.Insert(0, "");
+            foreach(var item in Enum.GetNames(typeof(OrderStates))){
+                
+                    orderStateFilter.Items.Insert(i, item);
+                
+                i++;
+            }
 
         }
 
@@ -140,7 +166,7 @@ namespace eShopas
         {
             string Query = "select username, email, locked, last_login from marsud.bts_users where id="+id;
             string Query2 = string.Format("SELECT Id FROM marsud.bts_users__groups INNER JOIN"+
-            "marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id WHERE user_id ={0}", id);
+            " marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id WHERE user_id ={0}", id);
 
             int selectedId = 0;
 
@@ -200,10 +226,12 @@ namespace eShopas
                 MySqlCommand cmd = new MySqlCommand(query1, connection);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
-
-                MySqlCommand cmd2 = new MySqlCommand(query2, connection);
-                cmd2.ExecuteNonQuery();
-                cmd2.Dispose();
+                if (!string.IsNullOrEmpty(query2))
+                {
+                    MySqlCommand cmd2 = new MySqlCommand(query2, connection);
+                    cmd2.ExecuteNonQuery();
+                    cmd2.Dispose();
+                }
 
 
             }
@@ -221,6 +249,7 @@ namespace eShopas
 
         public void updateUserInfo(int id, TextBox email, ComboBox permissions, ComboBox userEnabled)
         {
+            
             string Query = string.Format("update marsud.bts_users__groups set marsud.bts_users__groups.group_id = {0} where user_id = {1}", permissions.SelectedIndex + 1, id);
             string Query2 = string.Format("update marsud.bts_users set email='{0}', locked={1} where marsud.bts_users.id = {2}", email.Text, userEnabled.SelectedIndex == 0 ? 0 : 1, id);
 
@@ -237,7 +266,7 @@ namespace eShopas
         }
         //----------------------------------------------------------------- USER EDIT Modulis baigtas
 
-        public void gridFillWithQuery(DataGridView grid, string query)
+        public bool gridFillWithQuery(DataGridView grid, string query)
         {
 
             try
@@ -252,7 +281,131 @@ namespace eShopas
                 DataTable dtRecords = new DataTable();
                 dbAdapter.Fill(dtRecords);
                 grid.DataSource = dtRecords; //dataGrid
+                return true;
+               
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+
+            }
+
+        }
+
+
+
+        public bool fillOrdersInfoList(DataGridView grid, OrdersFilter filter){
+            string Query = "SELECT marsud.bts_orders.id, marsud.bts_users.username as Vartotojas, " +
+                    "status as Busena, created_at as 'Sukurimo data' from " +
+                    "marsud.bts_orders inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_orders.user{0}";
+            string str = "";
+            if (filter == null)
+            {
+                Query = String.Format(Query, "");
+            }
+            else
+            {
+                /*
+                Query = String.Format("SELECT marsud.bts_orders.id, marsud.bts_users.username as Vartotojas, " +
+                    "status as Busena, created_at as 'Sukurimo data' from " +
+                    "marsud.bts_orders inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_orders.user where {0}{1}{2}", 
+                    "marsud.bts_users.username="+filter.Username, filter.State);*/
+            /*http://www.w3schools.com/sql/sql_wildcards.asp*/
+               
+                if (!string.IsNullOrEmpty(filter.Username))
+                {
+                    str = " where marsud.bts_users.username LIKE'" + filter.Username+"%'";
+                }
+
+                if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.State))
+                {
+                    str = str + " and marsud.bts_orders.status= '" + filter.State+"'";
+                }
+                else if (!string.IsNullOrEmpty(filter.State))
+                {
+                    str = " where marsud.bts_orders.status='" + filter.State+"'";
+                }
+                if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.startDate))
+                {
+                    str = str + " and marsud.bts_orders.created_at>'" + filter.startDate+"'";
+
+                }
+                else if (!string.IsNullOrEmpty(filter.startDate))
+                {
+                    str = " where marsud.bts_orders.created_at>'" + filter.startDate +"'";
+                }
+                
+                if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.endDate))
+                {
+                    str = str + " and marsud.bts_orders.created_at<'" + filter.endDate+"'";
+
+                }
+                else if (!string.IsNullOrEmpty(filter.endDate))
+                {
+                    str = " where marsud.bts_orders.created_at<'" + filter.endDate+"'";
+                }
+                
+
+                Query = String.Format(Query, str);
+                
+
+                
+            }
+
+                gridFillWithQuery(grid, Query);
+                return true;
+
+        }
+
+        public void fillCartByOrder(DataGridView grid, int id)
+        {
+            string Query = String.Format(" Select bts_attributes.id, title as Pavadinimas, "+
+            "bts_packs.quantity as Kiekis, marsud.bts_attributes.name as dydis, marsud.bts_attributes.price as Kaina, created_at as 'Sukurimo data' from marsud.bts_attributes, " +
+            "marsud.bts_packs inner join marsud.bts_products on "+
+            "marsud.bts_packs.product = marsud.bts_products.id where marsud.bts_packs.cart = {0} and marsud.bts_packs.product = marsud.bts_attributes.product", id);
+            gridFillWithQuery(grid, Query);
+
+
+        }
+
+        public void fillOrderInfo(TextBox username, TextBox order_id, ComboBox state, int id){
+            string Query = "select bts_orders.id, username, status from marsud.bts_orders inner join marsud.bts_users on bts_users.id = bts_orders.user where bts_orders.id=" + id;
+            
+
+            int selectedId = 0;
+
+            try
+            {
+
+                connection = new MySQLConnection(connectionString);
+                connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                order_id.Text = reader.GetString(0);
+                username.Text = reader.GetString(1);
+
+                string stateName = reader.GetString(2);
+                int i = 1;
+                for(i = 1; i <= 3; i++){
+                    if (stateName == Enum.GetName(typeof(OrderStates), i))
+                    {
+                        break;
+                    }
+                }
+
+                state.SelectedIndex = i - 1;
+
+                reader.Close();
+
+       
 
             }
             catch (Exception ex)
@@ -267,30 +420,55 @@ namespace eShopas
 
         }
 
-
-
-        public void fillOrdersInfoList(DataGridView grid){
-
-            string Query = "SELECT marsud.bts_orders.id, marsud.bts_users.username as Vartotojas, "+
-                "status as Busena, created_at as 'Sukurimo data' from "+
-                "marsud.bts_orders inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_orders.user";
-            gridFillWithQuery(grid, Query);
-
-        }
-
-        public void fillCartByOrder(DataGridView grid, int id)
+        public void updateOrderInfo(int id, string state)
         {
-            string Query = String.Format(" Select title as Pavadinimas, "+
-            "bts_packs.quantity as Kiekis, marsud.bts_attributes.name as dydis, marsud.bts_attributes.price as Kaina, created_at as 'Sukurimo data' from marsud.bts_attributes, " +
-            "marsud.bts_packs inner join marsud.bts_products on "+
-            "marsud.bts_packs.product = marsud.bts_products.id where marsud.bts_packs.cart = {0} and marsud.bts_packs.product = marsud.bts_attributes.product", id);
-            gridFillWithQuery(grid, Query);
+            string Query = "update marsud.bts_orders set status='"+state+"' where id="+id;
+            updateByQuery(Query, null);
 
 
         }
 
+        public void flllCartItemQuantity(int Orderid, int productId, TextBox quantityTextBox)
+        {
+            string Query = string.Format("select quantity from marsud.bts_packs where cart={0} and id={1}", Orderid, productId);
+
+            try
+            {
+
+                connection = new MySQLConnection(connectionString);
+                connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    quantityTextBox.Text = reader.GetString(0);
+
+                }
+                else
+                {
+                    quantityTextBox.Text = "0";
+                }
+                reader.Close();
 
 
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+
+
+        }
+        
                
 
     }
