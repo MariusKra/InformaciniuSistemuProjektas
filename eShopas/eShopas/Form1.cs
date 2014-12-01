@@ -13,6 +13,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Net;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 
@@ -79,8 +80,9 @@ namespace eShopas
             try
             {
 
-                string Query = string.Format("SELECT marsud.bts_groups.id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id inner join marsud.bts_users on user_id = bts_users.id WHERE marsud.bts_users.username = '{0}'", usernameTextBox.Text);
-          
+               // string Query = string.Format("SELECT marsud.bts_groups.id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id inner join marsud.bts_users on user_id = bts_users.id WHERE marsud.bts_users.username = '{0}'", usernameTextBox.Text);
+                string Query = string.Format("SELECT marsud.bts_users.id, marsud.bts_users.roles FROM marsud.bts_users where marsud.bts_users.username = '{0}'", usernameTextBox.Text);
+              
                 connection = new MySQLConnection(connectionString);
             connection.Open();   
 
@@ -90,14 +92,19 @@ namespace eShopas
 
             if (reader.Read())
             {
-                int permissions = reader.GetInt32(0);
-                if (permissions > 1)
+               // int permissions = reader.GetInt32(0);
+                int id = reader.GetInt32(0);
+                string str = reader.GetString(1);
+                //"a:1:{i:0;s:10:\"ROLE_ADMIN\";}"
+                int index = str.IndexOf("ROLE_ADMIN");
+
+                if (index > 0)
                 {
                     connectionOpen = false;
                     this.Visible = false;
                     MainForm mainForm = new MainForm();
+                    mainForm.loggedUserId = id; 
                     mainForm.Show();
-                    mainForm.permissions = permissions;
 
                 }
 
@@ -121,3 +128,4 @@ namespace eShopas
         }
     }
 }
+

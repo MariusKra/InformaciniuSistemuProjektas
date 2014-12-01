@@ -16,26 +16,34 @@ namespace eShopas
 {
     public partial class MainForm : Form
     {
-        public int permissions { get; set; }
-
+       
         Database database = new Database();
         int permissionsId;
         int isUserEnabled;
+        public int loggedUserId { get; set; }
         bool filterOn = false;
         public MainForm()
         {
 
+            try
+            {
+                InitializeComponent();
+                database.loggedUserId = loggedUserId;
+                database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox, OrdersStateComboBox, OrdersStateFilterComboBox);
+                tableLayoutPanel1.Visible = false;
 
-            InitializeComponent();
-            database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox, OrdersStateComboBox, OrdersStateFilterComboBox);
-            tableLayoutPanel1.Visible = false;
+                database.fillOrdersInfoList(dataGridView2, null);
+                if(dataGridView2.RowCount > 0)
+                dataGridView2.Rows[0].Cells[0].Selected = false;
 
-            database.fillOrdersInfoList(dataGridView2, null);
-            dataGridView2.Rows[0].Cells[0].Selected = false;
+                OrdersDateFromFilterDatePicker.Value = DateTime.Now.AddMonths(-1);
+                OrdersTillDateFilterDatetPicker.Value = DateTime.Now.AddMonths(1);
+            }
+            catch (Exception ex)
+            {
 
-            OrdersDateFromFilterDatePicker.Value = DateTime.Now.AddMonths(-1);
-            OrdersTillDateFilterDatetPicker.Value = DateTime.Now.AddMonths(1);
 
+            }
 
         }
 
@@ -49,7 +57,10 @@ namespace eShopas
             // Užsakytas, Apmokėtas, Atšauktas
 
             database.fillOrdersInfoList(dataGridView2, null);
-            dataGridView2.Rows[0].Cells[0].Selected = false;
+            if (dataGridView2.RowCount > 0)
+            {
+                dataGridView2.Rows[0].Cells[0].Selected = false;
+            }
 
 
 
@@ -88,11 +99,10 @@ namespace eShopas
             tableLayoutPanel2.Visible = false;
             tableLayoutPanel3.Visible = false;
             tableLayoutPanel4.Visible = false;
-            if (permissions != 3)
-            {
+            
                 UserPermissionsComboBox.Visible = false;
                 labelUserPermissionsLabel.Visible = false;
-            }
+            
 
         }
 

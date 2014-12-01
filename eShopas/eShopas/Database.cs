@@ -33,7 +33,7 @@ namespace eShopas
         MySQLConnection connection = null;
         string connectionString = "datasource=stud.if.ktu.lt;port=3306;username=marsud;password=peu3uj5Cohximiph";
         DataTable dataTable = new DataTable();
-
+        public int loggedUserId { get; set; } 
 
         //----------------------------------------------------------------- USER EDIT Modulis
         public List<User> getUsersForListBox(){
@@ -82,12 +82,16 @@ namespace eShopas
 
         public void fillUserDataGrid(DataGridView grid)
         {
-            string Query =
+            /*string Query =
             "SELECT marsud.bts_users.id, marsud.bts_users.username AS  'Vartotojo vardas', " +
             "marsud.bts_users.email AS  'El. Pastas', locked AS  'Blokuotas', " +
             "last_login AS 'Paskutinis prisijungimas', marsud.bts_groups.name AS  'Teises'" +
             "FROM marsud.bts_users, marsud.bts_users__groups INNER JOIN marsud.bts_groups ON " +
             "marsud.bts_users__groups.group_id = marsud.bts_groups.id WHERE user_id = bts_users.id";
+            */
+            string Query = "SELECT marsud.bts_users.id, marsud.bts_users.username AS  'Vartotojo vardas', " +
+            "marsud.bts_users.email AS  'El. Pastas', locked AS  'Blokuotas', " +
+            "last_login AS 'Paskutinis prisijungimas' from marsud.bts_users";
             try
             {
 
@@ -119,8 +123,8 @@ namespace eShopas
         public enum PermisionsEnum
         {
             Vartotojas = 1,
-            Administratorius = 2,
-            Pagrindinis_administratorius = 3
+            Administratorius = 2/*,
+            Pagrindinis_administratorius = 3*/
         }
         public enum userState
         {
@@ -156,18 +160,18 @@ namespace eShopas
         public enum UserGroups
         {
             Vartotojas = 1,
-            Administratorius = 2,
-            Pagrindinis_Administratorius = 3
+            Administratorius = 2/*,
+            Pagrindinis_Administratorius = 3*/
         }
 
       
 
         public void fillUserDataById(int id, TextBox username, TextBox email, ComboBox permissions, ComboBox userEnabled)
         {
-            string Query = "select username, email, locked, last_login from marsud.bts_users where id="+id;
-            string Query2 = string.Format("SELECT Id FROM marsud.bts_users__groups INNER JOIN"+
+            string Query = "select username, email, locked, roles from marsud.bts_users where id="+id;
+            /*string Query2 = string.Format("SELECT Id FROM marsud.bts_users__groups INNER JOIN"+
             " marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id WHERE user_id ={0}", id);
-
+            */
             int selectedId = 0;
 
             try
@@ -182,17 +186,11 @@ namespace eShopas
                 username.Text = reader.GetString(0);
                 email.Text = reader.GetString(1);
                 userEnabled.SelectedIndex = reader.GetInt32(2) == 1 ? 1 : 0;
-
+                selectedId = (reader.GetString(3).IndexOf("ROLE_ADMIN") > 0 ? 2: 1 );
                 reader.Close();
 
-                MySqlCommand cmd2 = new MySqlCommand(Query2, connection);
-                MySqlDataReader reader2 = cmd2.ExecuteReader();
-                reader2.Read();
-                selectedId = reader2.GetInt32(0);
-                reader2.Close();
-
-
-               
+                
+                      
 
                 //(JobType)Enum.Parse(typeof(PermisionsEnum), comboBox1.SelectedText);
 
@@ -301,13 +299,20 @@ namespace eShopas
 
 
         public bool fillOrdersInfoList(DataGridView grid, OrdersFilter filter){
-            string Query = "SELECT marsud.bts_orders.id, marsud.bts_users.username as Vartotojas, " +
+            /*string Query = "SELECT marsud.bts_carts.id, marsud.bts_users.username as Vartotojas, " +
                     "status as Busena, created_at as 'Sukurimo data' from " +
-                    "marsud.bts_orders inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_orders.user{0}";
+                    "marsud.bts_carts inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_carts.user{0}";
+            */
+            //SELECT marsud.bts_carts.id, marsud.bts_users.username as Vartotojas, status as Busena, created_at as 'Sukurimo data' from marsud.bts_carts inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_carts.user where bts_users.id = 1
+            string Query = "SELECT marsud.bts_carts.id, marsud.bts_users.username as Vartotojas, " +
+                    "status as Busena, created_at as 'Sukurimo data' from " +
+                    "marsud.bts_carts inner join marsud.bts_users on marsud.bts_users.id = marsud.bts_carts.user{0}";
+           
+
             string str = "";
             if (filter == null)
             {
-                Query = String.Format(Query, "");
+                Query = String.Format(Query,"");
             }
             else
             {
@@ -325,36 +330,36 @@ namespace eShopas
 
                 if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.State))
                 {
-                    str = str + " and marsud.bts_orders.status= '" + filter.State+"'";
+                    str = str + " and marsud.bts_carts.status= '" + filter.State+"'";
                 }
                 else if (!string.IsNullOrEmpty(filter.State))
                 {
-                    str = " where marsud.bts_orders.status='" + filter.State+"'";
+                    str = " where marsud.bts_carts.status='" + filter.State+"'";
                 }
                 if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.startDate))
                 {
-                    str = str + " and marsud.bts_orders.created_at>'" + filter.startDate+"'";
+                    str = str + " and marsud.bts_carts.created_at>'" + filter.startDate+"'";
 
                 }
                 else if (!string.IsNullOrEmpty(filter.startDate))
                 {
-                    str = " where marsud.bts_orders.created_at>'" + filter.startDate +"'";
+                    str = " where marsud.bts_carts.created_at>'" + filter.startDate +"'";
                 }
                 
                 if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.endDate))
                 {
-                    str = str + " and marsud.bts_orders.created_at<'" + filter.endDate+"'";
+                    str = str + " and marsud.bts_carts.created_at<'" + filter.endDate+"'";
 
                 }
                 else if (!string.IsNullOrEmpty(filter.endDate))
                 {
-                    str = " where marsud.bts_orders.created_at<'" + filter.endDate+"'";
+                    str = " where marsud.bts_carts.created_at<'" + filter.endDate+"'";
                 }
-                
+
+               
 
                 Query = String.Format(Query, str);
                 
-
                 
             }
 
