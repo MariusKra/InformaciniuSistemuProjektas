@@ -61,6 +61,8 @@ namespace eShopas
         public Form1()
         {
             InitializeComponent();
+            label4.ForeColor = System.Drawing.Color.Red;
+            label4.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -77,51 +79,63 @@ namespace eShopas
             string answ = GetSiteContents(url);
 
             if (answ == "true")
-            try
             {
-
-               // string Query = string.Format("SELECT marsud.bts_groups.id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id inner join marsud.bts_users on user_id = bts_users.id WHERE marsud.bts_users.username = '{0}'", usernameTextBox.Text);
-                string Query = string.Format("SELECT marsud.bts_users.id, marsud.bts_users.roles FROM marsud.bts_users where marsud.bts_users.username = '{0}'", usernameTextBox.Text);
-              
-                connection = new MySQLConnection(connectionString);
-            connection.Open();   
-
-            MySqlCommand cmd = new MySqlCommand(Query, connection);
-
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            if (reader.Read())
-            {
-               // int permissions = reader.GetInt32(0);
-                int id = reader.GetInt32(0);
-                string str = reader.GetString(1);
-                //"a:1:{i:0;s:10:\"ROLE_ADMIN\";}"
-                int index = str.IndexOf("ROLE_ADMIN");
-
-                if (index > 0)
+                try
                 {
-                    connectionOpen = false;
-                    this.Visible = false;
-                    MainForm mainForm = new MainForm();
-                    mainForm.loggedUserId = id; 
-                    mainForm.Show();
 
+                    // string Query = string.Format("SELECT marsud.bts_groups.id FROM marsud.bts_users__groups INNER JOIN marsud.bts_groups ON marsud.bts_users__groups.group_id = marsud.bts_groups.id inner join marsud.bts_users on user_id = bts_users.id WHERE marsud.bts_users.username = '{0}'", usernameTextBox.Text);
+                    string Query = string.Format("SELECT marsud.bts_users.id, marsud.bts_users.roles FROM marsud.bts_users where marsud.bts_users.username = '{0}'", usernameTextBox.Text);
+
+                    connection = new MySQLConnection(connectionString);
+                    connection.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(Query, connection);
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        // int permissions = reader.GetInt32(0);
+                        int id = reader.GetInt32(0);
+                        string str = reader.GetString(1);
+                        //"a:1:{i:0;s:10:\"ROLE_ADMIN\";}"
+                        int index = str.IndexOf("ROLE_ADMIN");
+
+                        if (index > 0)
+                        {
+                            connectionOpen = false;
+                            this.Visible = false;
+                            MainForm mainForm = new MainForm();
+                            mainForm.loggedUserId = id;
+                            mainForm.Show();
+
+                        }
+                        else
+                        {
+                            label4.Text = "Jūs neturite atitinkamų teisių naudotis šia programa";
+                            label4.Visible = true;
+                        }
+
+                        connection.Close();
+                    }
                 }
-
-                connection.Close();  
-            }                
-            }
-            catch (Exception ex)
-            {
-               
-                throw ex;
-            }
-            finally
-            {
-                if (connectionOpen)
+                catch (Exception ex)
                 {
-                    connection.Close();
+
+                    throw ex;
                 }
+                finally
+                {
+                    if (connectionOpen)
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+            else
+            {
+                label4.Text = "Neteisingi prisijungimo duomenys";
+                label4.Visible = true;
             }
                 
             

@@ -34,6 +34,7 @@
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -75,7 +76,7 @@
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(212, 26);
             this.usernameTextBox.TabIndex = 3;
-            this.usernameTextBox.Text = "admin";
+            this.usernameTextBox.Text = "root";
             // 
             // passwordTextBox
             // 
@@ -83,7 +84,7 @@
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(212, 26);
             this.passwordTextBox.TabIndex = 4;
-            this.passwordTextBox.Text = "asadmin";
+            this.passwordTextBox.Text = "asroot";
             this.passwordTextBox.UseSystemPasswordChar = true;
             // 
             // loginButton
@@ -96,11 +97,22 @@
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(152, 77);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(274, 20);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Neteisingi prisijungimo duomenys";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 319);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
@@ -125,6 +137,7 @@
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.Button loginButton;
+        private System.Windows.Forms.Label label4;
     }
 }
 

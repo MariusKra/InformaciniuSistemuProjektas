@@ -22,6 +22,7 @@ namespace eShopas
         int isUserEnabled;
         public int loggedUserId { get; set; }
         bool filterOn = false;
+        UsersFilter UsersFilterObj { get; set; }
         public MainForm()
         {
 
@@ -29,15 +30,25 @@ namespace eShopas
             {
                 InitializeComponent();
                 database.loggedUserId = loggedUserId;
-                database.fillDropDowns(UserPermissionsComboBox, UserEnabledComboBox, OrdersStateComboBox, OrdersStateFilterComboBox);
+                List<ComboBox> permComboBoxList = new List<ComboBox>();
+                permComboBoxList.Add(UserPermissionsComboBox);
+                //permComboBoxList.Add(UserEdit_UserPermissionsFilterComboBox);
+
+                List<ComboBox> userEnabledComboBoxList = new List<ComboBox>();
+                userEnabledComboBoxList.Add(UserEnabledComboBox);
+                userEnabledComboBoxList.Add(UserEdit_UserStateFilterComboBox);
+
+                database.fillDropDowns(permComboBoxList, userEnabledComboBoxList , OrdersStateComboBox, OrdersStateFilterComboBox);
+
                 tableLayoutPanel1.Visible = false;
 
                 database.fillOrdersInfoList(dataGridView2, null);
                 if(dataGridView2.RowCount > 0)
                 dataGridView2.Rows[0].Cells[0].Selected = false;
-
+                
                 OrdersDateFromFilterDatePicker.Value = DateTime.Now.AddMonths(-1);
                 OrdersTillDateFilterDatetPicker.Value = DateTime.Now.AddMonths(1);
+
             }
             catch (Exception ex)
             {
@@ -76,6 +87,9 @@ namespace eShopas
                 int index = dataGridView2.CurrentCell.RowIndex;
                 int id = (int)dataGridView2[0, index].Value;
                 database.fillCartByOrder(dataGridView3, id);
+                if(dataGridView3.RowCount > 0){
+                    dataGridView3.Rows[0].Selected = true;
+                }
                 database.fillOrderInfo(OrdersUsernameTextBox, OrderIdTextBox, OrdersStateComboBox, id);
 
 
@@ -100,8 +114,8 @@ namespace eShopas
             tableLayoutPanel3.Visible = false;
             tableLayoutPanel4.Visible = false;
             
-                UserPermissionsComboBox.Visible = false;
-                labelUserPermissionsLabel.Visible = false;
+                //UserPermissionsComboBox.Visible = false;
+                //labelUserPermissionsLabel.Visible = false;
             
 
         }
@@ -163,7 +177,8 @@ namespace eShopas
         {
             hideAll();
             tableLayoutPanel1.Visible = true;
-            database.fillUserDataGrid(this.dataGridView1);
+            UsersFilterObj = null;
+            database.fillUserDataGrid(this.dataGridView1, UsersFilterObj);
             dataGridView1.Rows[0].Cells[0].Selected = false;
             // ištrinti user su delete o ne enabled varnelę nuimt
 
@@ -252,18 +267,26 @@ namespace eShopas
                 
 
                 database.updateUserInfo(id, emailTextBox, UserPermissionsComboBox, UserEnabledComboBox);
-                database.fillUserDataGrid(dataGridView1);
+
+                database.fillUserDataGrid(dataGridView1, UsersFilterObj);
+
                // dataGridView1.CurrentCell = dataGridView1.Rows[id].Cells[0];
 
                 //dataGridView1.SelectedRows.Clear();
+
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
 
-                    if((int)dataGridView1[0, row.Index].Value == id)
-                           row.Selected = true;
+                    if ((int)dataGridView1[0, row.Index].Value == id)
+                    {
+                        dataGridView1.CurrentCell = dataGridView1[0, row.Index];
+                             row.Selected = true;
+                    }
+                          
                 }
 
-
+                database.fillUserDataById(id, usernameTextBox, emailTextBox, UserPermissionsComboBox, UserEnabledComboBox);
+                
 
                 //dataGridView1.Rows[index].Selected = true;
 
@@ -277,7 +300,7 @@ namespace eShopas
                 int index = dataGridView1.CurrentCell.RowIndex;
                 int id = (int)dataGridView1[0, index].Value;
                 database.DeleteUser(id);
-                database.fillUserDataGrid(dataGridView1);
+                database.fillUserDataGrid(dataGridView1, UsersFilterObj);
                 // dataGridView1.CurrentCell = dataGridView1.Rows[id].Cells[0];
 
                 //dataGridView1.SelectedRows.Clear();
@@ -298,7 +321,7 @@ namespace eShopas
             int OrderId = (int)dataGridView2[0, index].Value;
 
             int index2 = dataGridView3.CurrentCell.RowIndex;
-            int productId = (int)dataGridView3[0, index].Value;
+            int productId = (int)dataGridView3[0, index2].Value;
 
             database.flllCartItemQuantity(OrderId, productId, CartSelectedProductQuantityTextBox);
             
@@ -383,6 +406,7 @@ namespace eShopas
         private void DeleteOrderProduct_Click(object sender, EventArgs e)
         {
 
+
         }
 
         private void OrdersFilterClearButton_Click(object sender, EventArgs e)
@@ -390,9 +414,31 @@ namespace eShopas
             OrdersUsernameFilterTextBox.Text = "";
             OrdersStateFilterComboBox.SelectedIndex = 0;
             dataGridView2.DataSource = null;
+            OrdersDateFromFilterDatePicker.Value = DateTime.Now;
+            OrdersTillDateFilterDatetPicker.Value = DateTime.Now;
             database.fillOrdersInfoList(dataGridView2, null);
             dataGridView2.Rows[0].Cells[0].Selected = false;
             filterOn = false;
+        }
+
+        private void UserEdit_UsernameFilterButton_Click(object sender, EventArgs e)
+        {
+            UsersFilterObj = new UsersFilter()
+            {
+                State = UserEdit_UserStateFilterComboBox.SelectedIndex,
+                Username = UserEdit_UsernameFilterTextBox.Text
+            };
+            database.fillUserDataGrid(this.dataGridView1, UsersFilterObj);
+            dataGridView1.Rows[0].Cells[0].Selected = false;
+        }
+
+        private void UserEdit_ClearFilterButton_Click(object sender, EventArgs e)
+        {
+            UsersFilterObj = null;
+            database.fillUserDataGrid(this.dataGridView1, UsersFilterObj);
+            dataGridView1.Rows[0].Cells[0].Selected = false;
+            UserEdit_UserStateFilterComboBox.SelectedIndex = 0;
+            UserEdit_UsernameFilterTextBox.Text = "";
         }
 
 
