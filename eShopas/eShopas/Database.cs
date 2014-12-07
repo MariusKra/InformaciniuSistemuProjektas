@@ -167,21 +167,46 @@ namespace eShopas
 			Blokuotas = 2
 		}
 
-		public enum OrderStates
+		/*public enum OrderStates
 		{
 			waiting = 1,
 			processing = 2,
 			sent = 3,
 			done = 4
 
-		}
-		/*  public enum OrderStates
-		{
-			Užsakytas = 1,
-			Apmokėtas = 2,
-			Ištrintas = 3
-
 		}*/
+		 public enum OrderStates
+		{
+			Laukia_vykdymo = 1,
+			Vykdomas = 2,
+			Išsiųstas = 3,
+            Įvykdytas = 4
+
+		}
+
+         public string TranslateStateToEnglish(string state)
+         {
+             switch (state)
+             {
+                 case "Laukia_vykdymo": return "waiting";
+                 case "Vykdomas": return "processing";
+                 case "Išsiųstas": return "sent";
+                 case "Įvykdytas": return "done";
+             }
+             return "";
+         }
+         public string TranslateStateToLithuanian(string state)
+         {
+             switch (state)
+             {
+                 case "waiting": return "Laukia_vykdymo";
+                 case "processing": return "Vykdomas";
+                 case "sent": return "Išsiųstas";
+                 case "done": return "Įvykdytas";
+             }
+             return "";
+         }
+
 
 		/*
 		 * 
@@ -432,11 +457,11 @@ namespace eShopas
 
 				if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.State))
 				{
-					str = str + " and marsud.bts_carts.status= '" + filter.State+"'";
+					str = str + " and marsud.bts_carts.status= '" + TranslateStateToEnglish(filter.State)+"'";
 				}
 				else if (!string.IsNullOrEmpty(filter.State))
 				{
-					str = " where marsud.bts_carts.status='" + filter.State+"'";
+                    str = " where marsud.bts_carts.status='" + TranslateStateToEnglish(filter.State) + "'";
 				}
 				if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.startDate) && filter.startDate!= filter.endDate)
 				{
@@ -467,6 +492,15 @@ namespace eShopas
 			}
 
 			gridFillWithQuery(grid, Query + " order by marsud.bts_carts.id desc");
+            for (int i = 0; i < grid.RowCount; i++)
+            {
+                
+                string atr = (string)grid[2, i].Value;
+               
+                grid[2, i].Value = TranslateStateToLithuanian(atr);
+
+            }        
+
 				return true;
 
 		}
@@ -490,7 +524,7 @@ namespace eShopas
             
             gridFillWithQuery(grid, Query);
             DataGridViewColumn column = grid.Columns[4];
-            column.Width = 200;
+            column.Width = 150;
 
             for (int i = 0; i < grid.RowCount; i++)
 			{
@@ -529,7 +563,7 @@ namespace eShopas
 				order_id.Text = reader.GetString(0);
 				username.Text = reader.GetString(1);
 
-				string stateName = reader.GetString(2);
+				string stateName = TranslateStateToLithuanian(reader.GetString(2));
 				int i = 1;
 				for(i = 1; i <= 3; i++){
 					if (stateName == Enum.GetName(typeof(OrderStates), i))
@@ -559,7 +593,7 @@ namespace eShopas
 
 		public void updateOrderInfo(int id, string state)
 		{
-			string Query = "update marsud.bts_orders set status='"+state+"' where id="+id;
+			string Query = "update marsud.bts_carts set status='"+TranslateStateToEnglish(state)+"' where id="+id;
 			updateByQuery(Query, null);
 
 
@@ -610,8 +644,28 @@ namespace eShopas
 
 		}
 
-	   
-			   
+        public void updatePackItemQuantity(int cartId, int productId, int quantity)
+        {
+            string Query = string.Format("update marsud.bts_packs set quantity = {0} where cart = {1} and product = {2}", quantity, cartId, productId);
+
+            updateByQuery(Query, null);
+        }
+
+        public void deletePackItem(int cartId, int productId)
+        {
+            string Query = string.Format("delete from marsud.bts_packs where cart = {0} and product = {1}", cartId, productId);
+
+            updateByQuery(Query, null);
+        }
+
+        public void deleteOrder(int cartId)
+        {
+            string Query = string.Format("delete from marsud.bts_packs where cart = {0}", cartId);
+            string Query2 = string.Format("delete from marsud.bts_carts where id = {0}", cartId);
+
+            updateByQuery(Query, Query2);
+
+        }
 
 	}
 }

@@ -21,8 +21,8 @@ namespace eShopas
         int permissionsId;
         int isUserEnabled;
         public int loggedUserId { get; set; }
-        bool filterOn = false;
         UsersFilter UsersFilterObj { get; set; }
+        OrdersFilter ordersFilter { get; set; }
         public MainForm()
         {
 
@@ -70,7 +70,7 @@ namespace eShopas
             database.fillOrdersInfoList(dataGridView2, null);
             if (dataGridView2.RowCount > 0)
             {
-                dataGridView2.Rows[0].Cells[0].Selected = false;
+                dataGridView2.Rows[0].Cells[0].Selected = true;
             }
 
 
@@ -179,7 +179,7 @@ namespace eShopas
             tableLayoutPanel1.Visible = true;
             UsersFilterObj = null;
             database.fillUserDataGrid(this.dataGridView1, UsersFilterObj);
-            dataGridView1.Rows[0].Cells[0].Selected = false;
+            dataGridView1.Rows[0].Cells[0].Selected = true;
             // ištrinti user su delete o ne enabled varnelę nuimt
 
         }
@@ -337,22 +337,26 @@ namespace eShopas
 
         private void OrderFilterButton_Click(object sender, EventArgs e)
         {
-            OrdersFilter filter = new OrdersFilter()
+            ordersFilter = new OrdersFilter()
             {
                 Username = OrdersUsernameFilterTextBox.Text,
                 State = (OrdersStateFilterComboBox.SelectedIndex == 0 ? "": Enum.GetName(typeof(Database.OrderStates), OrdersStateFilterComboBox.SelectedIndex)),
                 startDate = OrdersDateFromFilterDatePicker.Value.ToString("yyyy-MM-dd"),
                 endDate = OrdersTillDateFilterDatetPicker.Value.ToString("yyyy-MM-dd"),
             };
-            database.fillOrdersInfoList(dataGridView2, filter);
+            database.fillOrdersInfoList(dataGridView2, ordersFilter);
 
-            dataGridView3.DataSource = null;
+            //dataGridView3.DataSource = null;
             if (dataGridView2.RowCount != 0)
             {
-                dataGridView2.Rows[0].Cells[0].Selected = false;
-
+                dataGridView2.Rows[0].Cells[0].Selected = true;
+                dataGridView2.CurrentCell = dataGridView2[0, 0];
             }
-            filterOn = true;
+            else
+            {
+                dataGridView3.DataSource = null;
+            }
+            
 
         }
 
@@ -364,26 +368,16 @@ namespace eShopas
                 int index = dataGridView2.CurrentCell.RowIndex;
                 int id = (int)dataGridView2[0, index].Value;
                 database.updateOrderInfo(id, OrdersStateComboBox.SelectedValue.ToString());
-                if (filterOn)
-                {
-                    OrdersFilter filter = new OrdersFilter()
-                    {
-                        Username = OrdersUsernameFilterTextBox.Text,
-                        State = (OrdersStateFilterComboBox.SelectedIndex == 0 ? "" : Enum.GetName(typeof(Database.OrderStates), OrdersStateFilterComboBox.SelectedIndex)),
-                        startDate = OrdersDateFromFilterDatePicker.Value.ToString("yyyy-MM-dd"),
-                        endDate = OrdersTillDateFilterDatetPicker.Value.ToString("yyyy-MM-dd"),
-                    };
-                    database.fillOrdersInfoList(dataGridView2, filter);
-
-           
-                }
-                else
-                    database.fillOrdersInfoList(dataGridView2, null);
+                
+                    database.fillOrdersInfoList(dataGridView2, ordersFilter);
                 foreach (DataGridViewRow row in dataGridView2.Rows)
                 {
 
                     if ((int)dataGridView2[0, row.Index].Value == id)
+                    {
                         row.Selected = true;
+                        dataGridView2.CurrentCell = dataGridView2[0, row.Index];
+                    }
                     else
                         row.Selected = false;
                 }
@@ -398,14 +392,62 @@ namespace eShopas
 
         private void ProductQuantitySaveButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int index = dataGridView2.CurrentCell.RowIndex;
+                int OrderId = (int)dataGridView2[0, index].Value;
 
+                int index2 = dataGridView3.CurrentCell.RowIndex;
+                int productId = (int)dataGridView3[0, index2].Value;
+
+                database.updatePackItemQuantity(OrderId, productId, int.Parse(CartSelectedProductQuantityTextBox.Text)) ;
+                database.fillCartByOrder(dataGridView3, OrderId);
+
+                foreach (DataGridViewRow row in dataGridView3.Rows)
+                {
+
+                    if ((int)dataGridView3[0, row.Index].Value == productId){
+                        row.Selected = true;
+                        dataGridView3.CurrentCell = dataGridView3[0, row.Index];
+                    }   
+                    else
+                        row.Selected = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+
+            }
 
 
         }
 
         private void DeleteOrderProduct_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Ar tikrai norite iš krepšelio ištrinti šią prekę?", "Ištrinti prekę iš krepšelio", MessageBoxButtons.YesNo) == DialogResult.Yes || !askToDeletePackItemCheckBox.Checked)
+            {
+                try
+                {
+                    int index = dataGridView2.CurrentCell.RowIndex;
+                    int OrderId = (int)dataGridView2[0, index].Value;
 
+                    int index2 = dataGridView3.CurrentCell.RowIndex;
+                    int productId = (int)dataGridView3[0, index2].Value;
+
+                    //database.updatePackItemQuantity(OrderId, productId, int.Parse(CartSelectedProductQuantityTextBox.Text));
+                    database.deletePackItem(OrderId, productId);
+                    database.fillCartByOrder(dataGridView3, OrderId);
+                    dataGridView3.Rows[0].Selected = true;
+                    dataGridView3.CurrentCell = dataGridView3[0, 0];
+
+                }
+                catch (Exception ex)
+                {
+
+
+                }
+            }
 
         }
 
@@ -417,8 +459,13 @@ namespace eShopas
             OrdersDateFromFilterDatePicker.Value = DateTime.Now;
             OrdersTillDateFilterDatetPicker.Value = DateTime.Now;
             database.fillOrdersInfoList(dataGridView2, null);
-            dataGridView2.Rows[0].Cells[0].Selected = false;
-            filterOn = false;
+            ordersFilter = null;
+            if (dataGridView2.RowCount != 0)
+            {
+                dataGridView2.Rows[0].Cells[0].Selected = true;
+                dataGridView2.CurrentCell = dataGridView2[0, 0];
+
+            }
         }
 
         private void UserEdit_UsernameFilterButton_Click(object sender, EventArgs e)
@@ -439,6 +486,53 @@ namespace eShopas
             dataGridView1.Rows[0].Cells[0].Selected = false;
             UserEdit_UserStateFilterComboBox.SelectedIndex = 0;
             UserEdit_UsernameFilterTextBox.Text = "";
+        }
+
+        private void CartSelectedProductQuantityTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void DeleteOrderButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Ar tikrai norite ištrinti šį užsakymą?", "Ištrinti užsakymą", MessageBoxButtons.YesNo) == DialogResult.Yes || !askToDeletePackItemCheckBox.Checked)
+            {
+                try
+                {
+                    int index = dataGridView2.CurrentCell.RowIndex;
+                    int OrderId = (int)dataGridView2[0, index].Value;
+
+                    database.deleteOrder(OrderId);
+                    database.fillOrdersInfoList(dataGridView2, ordersFilter);
+                    if (dataGridView2.RowCount > 0)
+                    {
+
+                        dataGridView2.Rows[0].Selected = true;
+                        dataGridView2.CurrentCell = dataGridView2[0, 0];
+                        index = dataGridView2.CurrentCell.RowIndex;
+
+                        OrderId = (int)dataGridView2[0, 0].Value;
+                        database.fillCartByOrder(dataGridView3, OrderId);
+                        dataGridView3.Rows[0].Selected = true;
+                        dataGridView3.CurrentCell = dataGridView3[0, 0];
+                    }
+                }
+                catch (Exception ex)
+                {
+
+
+                }
+            }
         }
 
 

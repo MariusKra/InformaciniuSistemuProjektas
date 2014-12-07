@@ -64,6 +64,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.DeleteOrderButton = new System.Windows.Forms.Button();
             this.OrderIdTextBox = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.OrdersStateComboBox = new System.Windows.Forms.ComboBox();
@@ -88,12 +89,14 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.askToDeletePackItemCheckBox = new System.Windows.Forms.CheckBox();
             this.DeleteOrderProduct = new System.Windows.Forms.Button();
             this.ProductQuantitySaveButton = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.label15 = new System.Windows.Forms.Label();
             this.CartSelectedProductQuantityTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel8 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -110,6 +113,7 @@
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -175,15 +179,15 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5239F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.4761F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.745F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.255F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel7, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 27);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.11765F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1046, 465);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1149, 465);
             this.tableLayoutPanel1.TabIndex = 5;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
@@ -199,7 +203,7 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.usernameTextBox);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(656, 3);
+            this.panel1.Location = new System.Drawing.Point(655, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(283, 338);
             this.panel1.TabIndex = 5;
@@ -307,7 +311,7 @@
             this.panel7.Controls.Add(this.label17);
             this.panel7.Location = new System.Drawing.Point(3, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(647, 452);
+            this.panel7.Size = new System.Drawing.Size(645, 452);
             this.panel7.TabIndex = 6;
             // 
             // UserEdit_UserStateFilterComboBox
@@ -365,16 +369,14 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.panel2, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 30);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 57.79221F));
+            this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 42.20779F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1046, 462);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1156, 462);
             this.tableLayoutPanel2.TabIndex = 6;
             this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
@@ -383,23 +385,23 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(517, 225);
-            this.panel2.TabIndex = 1;
+            this.panel2.Size = new System.Drawing.Size(1138, 456);
+            this.panel2.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 23);
+            this.label1.Location = new System.Drawing.Point(135, 69);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 13);
+            this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Viskas su preki7 ivedimu ir panasiai eina cia";
+            this.label1.Text = "Prekių pridėjimas";
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.41808F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.58192F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.66088F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.33912F));
             this.tableLayoutPanel3.Controls.Add(this.panel3, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.dataGridView2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.panel4, 0, 0);
@@ -417,6 +419,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.DeleteOrderButton);
             this.panel3.Controls.Add(this.OrderIdTextBox);
             this.panel3.Controls.Add(this.label16);
             this.panel3.Controls.Add(this.OrdersStateComboBox);
@@ -426,22 +429,32 @@
             this.panel3.Controls.Add(this.UpdateOrdersButton);
             this.panel3.Location = new System.Drawing.Point(3, 383);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(545, 106);
+            this.panel3.Size = new System.Drawing.Size(531, 106);
             this.panel3.TabIndex = 3;
+            // 
+            // DeleteOrderButton
+            // 
+            this.DeleteOrderButton.Location = new System.Drawing.Point(354, 58);
+            this.DeleteOrderButton.Name = "DeleteOrderButton";
+            this.DeleteOrderButton.Size = new System.Drawing.Size(118, 23);
+            this.DeleteOrderButton.TabIndex = 8;
+            this.DeleteOrderButton.Text = "Ištrinti užsakymą";
+            this.DeleteOrderButton.UseVisualStyleBackColor = true;
+            this.DeleteOrderButton.Click += new System.EventHandler(this.DeleteOrderButton_Click);
             // 
             // OrderIdTextBox
             // 
             this.OrderIdTextBox.Enabled = false;
             this.OrderIdTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OrderIdTextBox.Location = new System.Drawing.Point(144, 32);
+            this.OrderIdTextBox.Location = new System.Drawing.Point(125, 15);
             this.OrderIdTextBox.Name = "OrderIdTextBox";
-            this.OrderIdTextBox.Size = new System.Drawing.Size(100, 20);
+            this.OrderIdTextBox.Size = new System.Drawing.Size(70, 20);
             this.OrderIdTextBox.TabIndex = 7;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(141, 15);
+            this.label16.Location = new System.Drawing.Point(24, 15);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(95, 13);
             this.label16.TabIndex = 6;
@@ -450,7 +463,7 @@
             // OrdersStateComboBox
             // 
             this.OrdersStateComboBox.FormattingEnabled = true;
-            this.OrdersStateComboBox.Location = new System.Drawing.Point(268, 31);
+            this.OrdersStateComboBox.Location = new System.Drawing.Point(219, 31);
             this.OrdersStateComboBox.Name = "OrdersStateComboBox";
             this.OrdersStateComboBox.Size = new System.Drawing.Size(121, 21);
             this.OrdersStateComboBox.TabIndex = 5;
@@ -459,15 +472,15 @@
             // 
             this.OrdersUsernameTextBox.Enabled = false;
             this.OrdersUsernameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OrdersUsernameTextBox.Location = new System.Drawing.Point(19, 32);
+            this.OrdersUsernameTextBox.Location = new System.Drawing.Point(86, 49);
             this.OrdersUsernameTextBox.Name = "OrdersUsernameTextBox";
-            this.OrdersUsernameTextBox.Size = new System.Drawing.Size(100, 20);
+            this.OrdersUsernameTextBox.Size = new System.Drawing.Size(109, 20);
             this.OrdersUsernameTextBox.TabIndex = 4;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(265, 15);
+            this.label13.Location = new System.Drawing.Point(216, 15);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(94, 13);
             this.label13.TabIndex = 3;
@@ -476,7 +489,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 15);
+            this.label2.Location = new System.Drawing.Point(26, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 2;
@@ -484,7 +497,7 @@
             // 
             // UpdateOrdersButton
             // 
-            this.UpdateOrdersButton.Location = new System.Drawing.Point(408, 31);
+            this.UpdateOrdersButton.Location = new System.Drawing.Point(354, 31);
             this.UpdateOrdersButton.Name = "UpdateOrdersButton";
             this.UpdateOrdersButton.Size = new System.Drawing.Size(75, 21);
             this.UpdateOrdersButton.TabIndex = 1;
@@ -514,6 +527,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.Location = new System.Drawing.Point(3, 103);
+            this.dataGridView2.MultiSelect = false;
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -545,7 +559,7 @@
             this.panel4.Controls.Add(this.label7);
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(545, 94);
+            this.panel4.Size = new System.Drawing.Size(531, 94);
             this.panel4.TabIndex = 5;
             // 
             // OrdersFilterClearButton
@@ -659,7 +673,7 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.label14);
-            this.panel5.Location = new System.Drawing.Point(572, 3);
+            this.panel5.Location = new System.Drawing.Point(540, 3);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(560, 94);
             this.panel5.TabIndex = 6;
@@ -676,15 +690,28 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.askToDeletePackItemCheckBox);
             this.panel6.Controls.Add(this.DeleteOrderProduct);
             this.panel6.Controls.Add(this.ProductQuantitySaveButton);
             this.panel6.Controls.Add(this.dataGridView3);
             this.panel6.Controls.Add(this.label15);
             this.panel6.Controls.Add(this.CartSelectedProductQuantityTextBox);
-            this.panel6.Location = new System.Drawing.Point(572, 103);
+            this.panel6.Location = new System.Drawing.Point(540, 103);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(578, 274);
+            this.panel6.Size = new System.Drawing.Size(609, 274);
             this.panel6.TabIndex = 7;
+            // 
+            // askToDeletePackItemCheckBox
+            // 
+            this.askToDeletePackItemCheckBox.AutoSize = true;
+            this.askToDeletePackItemCheckBox.Checked = true;
+            this.askToDeletePackItemCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.askToDeletePackItemCheckBox.Location = new System.Drawing.Point(283, 212);
+            this.askToDeletePackItemCheckBox.Name = "askToDeletePackItemCheckBox";
+            this.askToDeletePackItemCheckBox.Size = new System.Drawing.Size(199, 17);
+            this.askToDeletePackItemCheckBox.TabIndex = 4;
+            this.askToDeletePackItemCheckBox.Text = "Kas kartą klausti ar tikrai norite ištrinti";
+            this.askToDeletePackItemCheckBox.UseVisualStyleBackColor = true;
             // 
             // DeleteOrderProduct
             // 
@@ -729,6 +756,7 @@
             this.dataGridView3.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView3.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView3.MultiSelect = false;
             this.dataGridView3.Name = "dataGridView3";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -739,7 +767,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView3.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(572, 145);
+            this.dataGridView3.Size = new System.Drawing.Size(595, 145);
             this.dataGridView3.TabIndex = 0;
             this.dataGridView3.SelectionChanged += new System.EventHandler(this.dataGridView3_SelectionChanged);
             // 
@@ -759,30 +787,37 @@
             this.CartSelectedProductQuantityTextBox.Size = new System.Drawing.Size(60, 20);
             this.CartSelectedProductQuantityTextBox.TabIndex = 0;
             this.CartSelectedProductQuantityTextBox.Text = "0";
+            this.CartSelectedProductQuantityTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CartSelectedProductQuantityTextBox_KeyPress);
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.panel8, 0, 0);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 27);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1120, 492);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1156, 492);
             this.tableLayoutPanel4.TabIndex = 8;
             this.tableLayoutPanel4.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel4_Paint);
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.label3);
+            this.panel8.Location = new System.Drawing.Point(3, 3);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(1086, 486);
+            this.panel8.TabIndex = 0;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Location = new System.Drawing.Point(70, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(158, 13);
+            this.label3.Size = new System.Drawing.Size(101, 13);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Cia viskas apie pardavimus eina";
+            this.label3.Text = "Pardavimo statistika";
             // 
             // MainForm
             // 
@@ -791,10 +826,10 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1180, 540);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel2);
+            this.Controls.Add(this.tableLayoutPanel3);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "MainForm";
@@ -823,7 +858,8 @@
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -839,10 +875,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem prekėsToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.Label label5;
@@ -853,7 +887,6 @@
         private System.Windows.Forms.ComboBox UserEnabledComboBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView dataGridView3;
@@ -892,5 +925,11 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button UserEdit_ClearFilterButton;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button DeleteOrderButton;
+        private System.Windows.Forms.CheckBox askToDeletePackItemCheckBox;
     }
 }
