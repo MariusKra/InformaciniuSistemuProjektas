@@ -927,10 +927,10 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1180, 540);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "MainForm";
