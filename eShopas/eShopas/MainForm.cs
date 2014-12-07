@@ -23,6 +23,7 @@ namespace eShopas
         public int loggedUserId { get; set; }
         UsersFilter UsersFilterObj { get; set; }
         OrdersFilter ordersFilter { get; set; }
+        OrderStatisticsFilter ordersStatisticsFilter { get; set; }
         public MainForm()
         {
 
@@ -48,6 +49,9 @@ namespace eShopas
                 
                 OrdersDateFromFilterDatePicker.Value = DateTime.Now.AddMonths(-1);
                 OrdersTillDateFilterDatetPicker.Value = DateTime.Now.AddMonths(1);
+
+                OrdersStatisticsStartdateTimePicker.Value = DateTime.Now.AddMonths(-1);
+                OrdersStatisticsEnddateTimePicker.Value = DateTime.Now;
 
             }
             catch (Exception ex)
@@ -229,6 +233,15 @@ namespace eShopas
             hideAll();
             tableLayoutPanel4.Visible = true;
             //pardavim7 statistikos logika
+            ordersStatisticsFilter = new OrderStatisticsFilter()
+            {
+                startDate = OrdersStatisticsStartdateTimePicker.Value.ToString("yyyy-MM-dd"),
+                endDate = OrdersStatisticsEnddateTimePicker.Value.ToString("yyyy-MM-dd")
+            };
+            database.fillOrderStatisticsGrid(dataGridView4, ordersStatisticsFilter);
+
+            
+
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -533,6 +546,33 @@ namespace eShopas
 
                 }
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)// valyti filtr1
+        {
+           
+            OrdersStatisticsStartdateTimePicker.Value = DateTime.Now.AddMonths(-1);
+            OrdersStatisticsEnddateTimePicker.Value = DateTime.Now;
+            database.fillOrderStatisticsGrid(dataGridView4, ordersStatisticsFilter);
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)// filtruoti statistik1
+        {
+            ordersStatisticsFilter = new OrderStatisticsFilter()
+            {
+                startDate = OrdersStatisticsStartdateTimePicker.Value.ToString("yyyy-MM-dd"),
+                endDate = OrdersStatisticsEnddateTimePicker.Value.ToString("yyyy-MM-dd")
+            };
+
+            database.fillOrderStatisticsGrid(dataGridView4, ordersStatisticsFilter);
+
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            database.fillOrderStatisticsGrid(dataGridView4, null);
         }
 
 

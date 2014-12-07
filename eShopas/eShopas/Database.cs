@@ -29,18 +29,24 @@ namespace eShopas
 	
 	}
 
-    public class UsersFilter
-    {
-        public string Username { get; set; }
-        public int State { get; set; }
-    }
+	public class UsersFilter
+	{
+		public string Username { get; set; }
+		public int State { get; set; }
+	}
 
-    public class JsonAttributes
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string value { get; set; }
-    }
+	public class OrderStatisticsFilter
+	{
+		public string startDate { get; set; }
+		public string endDate { get; set; }
+	}
+
+	public class JsonAttributes
+	{
+		public int id { get; set; }
+		public string name { get; set; }
+		public string value { get; set; }
+	}
 	class Database
 	{
 		MySQLConnection connection = null;
@@ -106,26 +112,26 @@ namespace eShopas
 			"marsud.bts_users.email AS  'El. Pastas', locked AS  'Blokuotas', " +
 			"last_login AS 'Paskutinis prisijungimas' from marsud.bts_users";
 
-            string str = "";
-            if (filter != null)
-            {
-                if (!string.IsNullOrEmpty(filter.Username))
-                    Query = Query + " where username LIKE'" + filter.Username+"%'";
+			string str = "";
+			if (filter != null)
+			{
+				if (!string.IsNullOrEmpty(filter.Username))
+					Query = Query + " where username LIKE'" + filter.Username+"%'";
 
-                if (filter.State != 0)
-                {
-                    if (!string.IsNullOrEmpty(str))
-                    {
-                        Query = Query + " and locked = " + (filter.State == 2 ? 1 : 0);
-                    }
-                    else
-                    {
-                        Query = Query + " where locked = " + (filter.State == 2 ? 1 : 0);
-                    }
-                }
-                
-            }
-            Query = Query + str;
+				if (filter.State != 0)
+				{
+					if (!string.IsNullOrEmpty(str))
+					{
+						Query = Query + " and locked = " + (filter.State == 2 ? 1 : 0);
+					}
+					else
+					{
+						Query = Query + " where locked = " + (filter.State == 2 ? 1 : 0);
+					}
+				}
+				
+			}
+			Query = Query + str;
 
 			try
 			{
@@ -180,32 +186,32 @@ namespace eShopas
 			Laukia_vykdymo = 1,
 			Vykdomas = 2,
 			Išsiųstas = 3,
-            Įvykdytas = 4
+			Įvykdytas = 4
 
 		}
 
-         public string TranslateStateToEnglish(string state)
-         {
-             switch (state)
-             {
-                 case "Laukia_vykdymo": return "waiting";
-                 case "Vykdomas": return "processing";
-                 case "Išsiųstas": return "sent";
-                 case "Įvykdytas": return "done";
-             }
-             return "";
-         }
-         public string TranslateStateToLithuanian(string state)
-         {
-             switch (state)
-             {
-                 case "waiting": return "Laukia_vykdymo";
-                 case "processing": return "Vykdomas";
-                 case "sent": return "Išsiųstas";
-                 case "done": return "Įvykdytas";
-             }
-             return "";
-         }
+		 public string TranslateStateToEnglish(string state)
+		 {
+			 switch (state)
+			 {
+				 case "Laukia_vykdymo": return "waiting";
+				 case "Vykdomas": return "processing";
+				 case "Išsiųstas": return "sent";
+				 case "Įvykdytas": return "done";
+			 }
+			 return "";
+		 }
+		 public string TranslateStateToLithuanian(string state)
+		 {
+			 switch (state)
+			 {
+				 case "waiting": return "Laukia_vykdymo";
+				 case "processing": return "Vykdomas";
+				 case "sent": return "Išsiųstas";
+				 case "done": return "Įvykdytas";
+			 }
+			 return "";
+		 }
 
 
 		/*
@@ -228,7 +234,7 @@ namespace eShopas
 				if (j.Name == "UserEdit_UserPermissionsFilterComboBox")
 				{
 					int k = 1;
-                    
+					
 					j.Items.Insert(0, "");
 					foreach (var item in Enum.GetNames(typeof(PermisionsEnum)))
 					{
@@ -244,10 +250,10 @@ namespace eShopas
 				}
 
 			}
-            for (int l = 0; l < userEnabled.Count; l++)
+			for (int l = 0; l < userEnabled.Count; l++)
 			{
 
-                ComboBox j = userEnabled[l];
+				ComboBox j = userEnabled[l];
 				if (j.Name == "UserEdit_UserStateFilterComboBox")
 				{
 					int k = 1;
@@ -259,7 +265,7 @@ namespace eShopas
 
 						k++;
 					}
-                    j.SelectedIndex = 0;
+					j.SelectedIndex = 0;
 				}
 				else
 				{
@@ -461,7 +467,7 @@ namespace eShopas
 				}
 				else if (!string.IsNullOrEmpty(filter.State))
 				{
-                    str = " where marsud.bts_carts.status='" + TranslateStateToEnglish(filter.State) + "'";
+					str = " where marsud.bts_carts.status='" + TranslateStateToEnglish(filter.State) + "'";
 				}
 				if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.startDate) && filter.startDate!= filter.endDate)
 				{
@@ -473,7 +479,7 @@ namespace eShopas
 					str = " where marsud.bts_carts.created_at>'" + filter.startDate +"'";
 				}
 
-                if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.endDate) && filter.startDate != filter.endDate)
+				if (!string.IsNullOrEmpty(str) && !string.IsNullOrEmpty(filter.endDate) && filter.startDate != filter.endDate)
 				{
 					str = str + " and marsud.bts_carts.created_at<'" + filter.endDate+"'";
 
@@ -483,23 +489,23 @@ namespace eShopas
 					str = " where marsud.bts_carts.created_at<'" + filter.endDate+"'";
 				}
 
-                if (!string.IsNullOrEmpty(str))
-                {
-                    Query = String.Format(Query, str);
-                    
-                }				
+				if (!string.IsNullOrEmpty(str))
+				{
+					Query = String.Format(Query, str);
+					
+				}				
 				
 			}
 
 			gridFillWithQuery(grid, Query + " order by marsud.bts_carts.id desc");
-            for (int i = 0; i < grid.RowCount; i++)
-            {
-                
-                string atr = (string)grid[2, i].Value;
-               
-                grid[2, i].Value = TranslateStateToLithuanian(atr);
+			for (int i = 0; i < grid.RowCount; i++)
+			{
+				
+				string atr = (string)grid[2, i].Value;
+			   
+				grid[2, i].Value = TranslateStateToLithuanian(atr);
 
-            }        
+			}        
 
 				return true;
 
@@ -517,29 +523,37 @@ namespace eShopas
 			//string Query = String.Format("SELECT * FROM bts_carts inner join bts_packs on bts_carts.id = bts_packs.cart WHERE bts_carts.id = {0}", id);
 			//string Query = String.Format("SELECT * FROM marsud.bts_products, marsud.bts_attributes_groups, marsud.bts_attributes, marsud.bts_brands, marsud.bts_carts inner join marsud.bts_packs on bts_carts.id = bts_packs.cart WHERE bts_packs.product = bts_products.id and bts_attributes_groups.product = bts_products.id and bts_attributes.attribute_group = bts_attributes_groups.id and bts_brands.id = bts_products.brand and bts_carts.id = {0}", id);
 
-            string Query = String.Format("SELECT bts_products.id, name as 'Aprašymas', price as 'Kaina', quantity as Kiekis, "+
-            "attributes as 'Savybės'FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on "+ 
-            "bts_carts.id = bts_packs.cart WHERE bts_products.id = bts_packs.product "+
-            "and bts_carts.id = {0}", id);
-            
-            gridFillWithQuery(grid, Query);
-            DataGridViewColumn column = grid.Columns[4];
-            column.Width = 150;
+			string Query = String.Format("SELECT bts_products.id, name as 'Aprašymas', real_price as 'Kaina', quantity as Kiekis, " +
+			"attributes as 'Savybės'FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on "+ 
+			"bts_carts.id = bts_packs.cart WHERE bts_products.id = bts_packs.product "+
+			"and bts_carts.id = {0}", id);
+			
+			gridFillWithQuery(grid, Query);
+			DataGridViewColumn column5 = grid.Columns[4];
+			column5.Width = 200;
+            DataGridViewColumn column1 = grid.Columns[0];
+            column1.Width = 50;
+            DataGridViewColumn column2 = grid.Columns[1];
+            column2.Width = 200;
+            DataGridViewColumn column3 = grid.Columns[2];
+            column3.Width = 50;
+            DataGridViewColumn column4 = grid.Columns[3];
+            column4.Width = 50;
 
-            for (int i = 0; i < grid.RowCount; i++)
+			for (int i = 0; i < grid.RowCount; i++)
 			{
-                string str = "";
-                string atr = (string)grid[4, i].Value;               
-                List<JsonAttributes> attributes = JsonConvert.DeserializeObject<List<JsonAttributes>>(atr);
-                foreach (JsonAttributes j in attributes)
-                {
-                    str = String.Format("{0} {1}:{2} ", str, j.name, j.value);
-                }
-                grid[4, i].Value = str;
+				string str = "";
+				string atr = (string)grid[4, i].Value;               
+				List<JsonAttributes> attributes = JsonConvert.DeserializeObject<List<JsonAttributes>>(atr);
+				foreach (JsonAttributes j in attributes)
+				{
+					str = String.Format("{0} {1}:{2} ", str, j.name, j.value);
+				}
+				grid[4, i].Value = str;
 
 			}        
 
-            //grid.Columns.Add("")
+			//grid.Columns.Add("")
 
 
 
@@ -602,9 +616,9 @@ namespace eShopas
 		public void flllCartItemQuantity(int Orderid, int productId, TextBox quantityTextBox)
 		{
 			//string Query = string.Format("select quantity from marsud.bts_packs where cart={0} and id={1}", Orderid, productId);
-            string Query = string.Format("SELECT quantity " +
-            "FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on " +
-            "bts_carts.id = bts_packs.cart where bts_packs.cart = {0} and bts_products.id = {1} and product = {1}", Orderid, productId);
+			string Query = string.Format("SELECT quantity " +
+			"FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on " +
+			"bts_carts.id = bts_packs.cart where bts_packs.cart = {0} and bts_products.id = {1} and product = {1}", Orderid, productId);
 
 			try
 			{
@@ -617,8 +631,8 @@ namespace eShopas
 
 				if (reader.Read())
 				{
-                    string quantity = reader.GetString(0);
-                    quantityTextBox.Text = quantity;
+					string quantity = reader.GetString(0);
+					quantityTextBox.Text = quantity;
 
 				}
 				else
@@ -644,28 +658,65 @@ namespace eShopas
 
 		}
 
-        public void updatePackItemQuantity(int cartId, int productId, int quantity)
-        {
-            string Query = string.Format("update marsud.bts_packs set quantity = {0} where cart = {1} and product = {2}", quantity, cartId, productId);
+		public void updatePackItemQuantity(int cartId, int productId, int quantity)
+		{
+			string Query = string.Format("update marsud.bts_packs set quantity = {0} where cart = {1} and product = {2}", quantity, cartId, productId);
 
-            updateByQuery(Query, null);
-        }
+			updateByQuery(Query, null);
+		}
 
-        public void deletePackItem(int cartId, int productId)
-        {
-            string Query = string.Format("delete from marsud.bts_packs where cart = {0} and product = {1}", cartId, productId);
+		public void deletePackItem(int cartId, int productId)
+		{
+			string Query = string.Format("delete from marsud.bts_packs where cart = {0} and product = {1}", cartId, productId);
 
-            updateByQuery(Query, null);
-        }
+			updateByQuery(Query, null);
+		}
 
-        public void deleteOrder(int cartId)
-        {
-            string Query = string.Format("delete from marsud.bts_packs where cart = {0}", cartId);
-            string Query2 = string.Format("delete from marsud.bts_carts where id = {0}", cartId);
+		public void deleteOrder(int cartId)
+		{
+			string Query = string.Format("delete from marsud.bts_packs where cart = {0}", cartId);
+			string Query2 = string.Format("delete from marsud.bts_carts where id = {0}", cartId);
 
-            updateByQuery(Query, Query2);
+			updateByQuery(Query, Query2);
 
-        }
+		}
+
+		public void fillOrderStatisticsGrid(DataGridView grid, OrderStatisticsFilter filter)
+		{
+			//SELECT name, real_price, sum(quantity), sum(quantity)*real_price, bts_carts.created_at FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on bts_carts.id = bts_packs.cart where bts_carts.status = 'done' and product = bts_products.id group by product
+			string Query = "SELECT name as 'Pavadinimas', real_price as 'Kaina', sum(quantity) as 'Kiekis', sum(quantity)*real_price as 'Pardavimų suma' " +
+			"FROM marsud.bts_products, marsud.bts_carts inner join marsud.bts_packs on bts_carts.id = bts_packs.cart "+
+			"where bts_carts.status = 'done' and product = bts_products.id";
+			if (filter != null)
+			{
+				string str = "";
+
+				if (!string.IsNullOrEmpty(filter.startDate) && filter.startDate!= filter.endDate)
+				{
+					str = str + " and marsud.bts_carts.created_at>='" + filter.startDate+"'";
+
+				}
+				
+
+				if (!string.IsNullOrEmpty(filter.endDate) && filter.startDate != filter.endDate)
+				{
+					str = str + " and marsud.bts_carts.created_at<='" + filter.endDate+"'";
+
+				}
+				Query = Query + str;
+
+			}
+
+			Query = Query + " group by product order by Kiekis desc";
+			gridFillWithQuery(grid, Query);
+            DataGridViewColumn column1 = grid.Columns[0];
+            column1.Width = 200;
+            DataGridViewColumn column2 = grid.Columns[1];
+            column2.Width = 100;
+            DataGridViewColumn column3 = grid.Columns[2];
+            column3.Width = 100;
+		}
+
 
 	}
 }
