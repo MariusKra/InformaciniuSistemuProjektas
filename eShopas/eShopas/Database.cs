@@ -389,11 +389,47 @@ namespace eShopas
 
 		public void DeleteUser(int id)
 		{
-			string Query = string.Format("Delete from marsud.bts_users__groups where marsud.bts_users__groups.user_id = {0}", id);
-			string Query2 = string.Format("Delete from marsud.bts_users where marsud.bts_users.id = {0}", id);
+            string Query = string.Format("select id from marsud.bts_carts where user = {0}", id);
+            List<int> cartsIds = new System.Collections.Generic.List<int>();
+            try
+            {
 
-			updateByQuery(Query, Query2);           
+                connection = new MySQLConnection(connectionString);
+                connection.Open();
 
+                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    cartsIds.Add(reader.GetInt32(0));
+                }
+                
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            foreach (int i in cartsIds)
+            {
+                string Query2 = string.Format("Delete from marsud.bts_packs where cart = {0}", i);
+                string Query3 = string.Format("delete from marsud.bts_carts where id = {0}", i);
+                updateByQuery(Query2, Query3);
+
+            }
+
+            
+			string Query4 = string.Format("Delete from marsud.bts_users where marsud.bts_users.id = {0}", id);
+
+			updateByQuery(Query4, null);           
+            
 		}
 		//----------------------------------------------------------------- USER EDIT Modulis baigtas
 
