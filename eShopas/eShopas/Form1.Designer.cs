@@ -84,7 +84,7 @@
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(212, 26);
             this.passwordTextBox.TabIndex = 4;
-            this.passwordTextBox.Text = "adadmin";
+            this.passwordTextBox.Text = "asadmin";
             this.passwordTextBox.UseSystemPasswordChar = true;
             // 
             // loginButton
